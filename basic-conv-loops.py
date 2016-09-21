@@ -32,8 +32,6 @@ for i in range(1,3):
     with tf.variable_scope(str(i)):
         w = weight_variable([5,5,n_old,n_new])
         b = bias_variable([n_new])
-        print x_list[i-1]
-        print w
         conv = conv2d(x_list[i-1], w)
         relu = tf.nn.relu(conv + b)
         pool = max_pool_2x2(relu)
