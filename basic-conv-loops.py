@@ -26,18 +26,20 @@ y_ = tf.placeholder(tf.float32, shape=[None, 10])
 x_reshape = tf.reshape(x, [-1,28,28,1])
 
 x_list = [x_reshape]
-n = 32
+n_old = 1
+n_new = 32
 for i in range(1,3):
     with tf.variable_scope(str(i)):
-        w = weight_variable([5,5,1,32])
-        b = bias_variable([n])
+        w = weight_variable([5,5,n_old,n_new])
+        b = bias_variable([n_new])
         print x_list[i-1]
         print w
         conv = conv2d(x_list[i-1], w)
         relu = tf.nn.relu(conv + b)
         pool = max_pool_2x2(relu)
         x_list.append(pool)
-        n *= 2
+        n_old = n_new
+        n_new *= 2
 
 #Fully connected stuff, reshapes from rows x 7*7*64 to rows x 1024
 w_3 = weight_variable([7 * 7 * 64, 1024])
